@@ -3,7 +3,6 @@
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -69,6 +68,8 @@ require('lazy').setup({
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
+
+      "zbirenbaum/copilot-cmp",
     },
   },
 
@@ -195,6 +196,19 @@ require('lazy').setup({
   },
   { 'ThePrimeagen/harpoon' },
   { 'echasnovski/mini.files', version = false },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -591,6 +605,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = "copilot" },
   },
 }
 
@@ -611,5 +626,9 @@ vim.keymap.set("n", "<C-l>", "<cmd>winc l<CR>")
 
 -- [[ Configure Harpoon ]]
 require('harpoon').setup({})
+
+
+-- [[ Configure Copilot cmp ]]
+require('copilot_cmp').setup({})
 
 -- vim: ts=2 sts=2 sw=2 et
