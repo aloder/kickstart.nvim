@@ -181,6 +181,7 @@ require('lazy').setup({
   -- Added config
   require 'kickstart.plugins.autoformat',
   require 'kickstart.plugins.debug',
+  require 'custom.plugins.neorg',
   {
     'goolord/alpha-nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -513,7 +514,7 @@ require('mason-lspconfig').setup()
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
-  -- gopls = {},
+  gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
@@ -558,56 +559,8 @@ require 'config.alpha'
 vim.keymap.set('n', "<leader>;", "<cmd>Alpha<CR>")
 
 -- [[ Configure nvim-cmp ]]
--- See `:help cmp`
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.config.setup {}
-
-cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  completion = {
-    completeopt = 'menu,menuone,noinsert'
-  },
-  mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = "copilot" },
-  },
-}
+require 'config.cmp'
+-- require 'config.cmp-work'
 
 -- [[ Mini files setup ]]
 
@@ -630,5 +583,11 @@ require('harpoon').setup({})
 
 -- [[ Configure Copilot cmp ]]
 require('copilot_cmp').setup({})
+
+
+-- [[ Configure Terminal ]]
+vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal size=30<CR>")
+vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>")
+vim.keymap.set("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical size=30<CR>")
 
 -- vim: ts=2 sts=2 sw=2 et
