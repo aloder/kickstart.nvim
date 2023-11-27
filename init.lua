@@ -181,7 +181,7 @@ require('lazy').setup({
   -- Added config
   require 'kickstart.plugins.autoformat',
   require 'kickstart.plugins.debug',
-  require 'custom.plugins.neorg',
+  require 'custom.plugins.dadbod',
   {
     'goolord/alpha-nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -514,7 +514,7 @@ require('mason-lspconfig').setup()
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
-  gopls = {},
+  -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
@@ -559,8 +559,8 @@ require 'config.alpha'
 vim.keymap.set('n', "<leader>;", "<cmd>Alpha<CR>")
 
 -- [[ Configure nvim-cmp ]]
+-- See `:help cmp`
 require 'config.cmp'
--- require 'config.cmp-work'
 
 -- [[ Mini files setup ]]
 
@@ -587,7 +587,7 @@ require('copilot_cmp').setup({})
 
 -- [[ Configure Terminal ]]
 vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal size=30<CR>")
+vim.keymap.set("n", "<leader>tb", "<cmd>ToggleTerm direction=horizontal size=30<CR>")
 vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>")
-vim.keymap.set("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical size=30<CR>")
 
 -- vim: ts=2 sts=2 sw=2 et
