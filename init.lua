@@ -8,7 +8,7 @@ vim.g.maplocalleader = ' '
 --    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
+  im.fn.system {
     'git',
     'clone',
     '--filter=blob:none',
@@ -17,6 +17,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   }
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
@@ -48,7 +49,6 @@ require('lazy').setup({
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
-
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
@@ -69,10 +69,8 @@ require('lazy').setup({
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
 
-      "zbirenbaum/copilot-cmp",
     },
   },
-
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim',    opts = {} },
   {
@@ -197,19 +195,19 @@ require('lazy').setup({
   },
   { 'ThePrimeagen/harpoon' },
   -- [[Rust Config]]
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function()
-      vim.g.rustfmt_autosave = 1
-    end
-  },
+  -- {
+  --   "rust-lang/rust.vim",
+  --   ft = "rust",
+  --   init = function()
+  --     vim.g.rustfmt_autosave = 1
+  --   end
+  -- },
   {
     "simrat39/rust-tools.nvim",
     ft = "rust",
     dependencies = "neovim/nvim-lspconfig",
     opts = function()
-      -- return require "custom.configs.rust-tools"
+      return require "config.rust-tools"
     end,
     config = function(_, opts)
       require('rust-tools').setup(opts)
@@ -228,18 +226,19 @@ require('lazy').setup({
       require("core.utils").load_mappings("crates")
     end,
   },
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function()
-      vim.g.rustfmt_autosave = 1
-    end
-  },
+  -- {
+  --   "rust-lang/rust.vim",
+  --   ft = "rust",
+  --   init = function()
+  --     vim.g.rustfmt_autosave = 1
+  --   end
+  -- },
   { 'echasnovski/mini.files', version = false },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
+    event = "InsertEnter",
     opts = {
       suggestion = { enabled = false },
       panel = { enabled = false },
@@ -248,6 +247,21 @@ require('lazy').setup({
         help = true,
       },
     },
+    config = function()
+      require("copilot").setup({
+        panel = {
+          enabled = true,
+          auto_refresh = true,
+        },
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          keymap = {
+            accept = "<C-l>",
+          }
+        },
+      })
+    end
   },
 }, {})
 
@@ -555,10 +569,30 @@ local servers = {
   clangd = {},
   -- gopls = {},
   -- pyright = {},
-  -- rust_analyzer = {},
+
+  rust_analyzer = {
+    settings = {
+      ['rust-analyzer'] = {
+        assist = {
+          importMergeBehavior = 'last',
+          importPrefix = 'by_self',
+        },
+        cargo = {
+          loadOutDirsFromCheck = true,
+        },
+        checkOnSave = {
+          command = 'clippy',
+          -- extraArgs = { "--", "-Aclippy::needless_return" },
+
+        },
+        procMacro = {
+          enable = true,
+        },
+      },
+    },
+  },
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -619,9 +653,6 @@ vim.keymap.set("n", "<C-l>", "<cmd>winc l<CR>")
 -- [[ Configure Harpoon ]]
 require('harpoon').setup({})
 
-
--- [[ Configure Copilot cmp ]]
-require('copilot_cmp').setup({})
 
 
 -- [[ Configure Terminal ]]
