@@ -8,7 +8,7 @@ vim.g.maplocalleader = ' '
 --    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  im.fn.system {
+  vim.fn.system {
     'git',
     'clone',
     '--filter=blob:none',
@@ -35,6 +35,7 @@ require('lazy').setup({
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+  'itchyny/calendar.vim',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -54,6 +55,7 @@ require('lazy').setup({
     },
 
   },
+  { 'lervag/wiki.vim' },
   { 'akinsho/toggleterm.nvim', version = "*", config = true },
   {
     -- Autocompletion
@@ -72,7 +74,7 @@ require('lazy').setup({
     },
   },
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',    opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -243,7 +245,6 @@ require('lazy').setup({
       suggestion = { enabled = false },
       panel = { enabled = false },
       filetypes = {
-        markdown = true,
         help = true,
       },
     },
@@ -654,6 +655,13 @@ vim.keymap.set("n", "<C-l>", "<cmd>winc l<CR>")
 require('harpoon').setup({})
 
 
+--
+vim.g.wiki_root = '~/wiki';
+vim.g.wiki_select_method = {
+  pages = require("wiki.telescope").pages,
+  tags = require("wiki.telescope").tags,
+  toc = require("wiki.telescope").toc,
+}
 
 -- [[ Configure Terminal ]]
 vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal size=30<CR>")

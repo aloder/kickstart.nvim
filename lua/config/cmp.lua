@@ -50,7 +50,9 @@ cmp.setup {
 		{ name = 'luasnip' },
 		{ name = "copilot" },
 		{ name = 'vim-dadbod-completion' },
-		{ name = 'crates' }
+		{ name = 'crates' },
+		{ name = 'neorg' },
+		{ name = 'mkdnflow' },
 	},
 
 }
