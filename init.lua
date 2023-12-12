@@ -662,8 +662,30 @@ vim.g.wiki_select_method = {
   tags = require("wiki.telescope").tags,
   toc = require("wiki.telescope").toc,
 }
+local function join(...)
+  return table.concat(vim.tbl_flatten { ... }, '/')
+end
+
+vim.g.wiki_templates = {
+  {
+    match_func = function(ctx)
+      return ctx.path:find "journal/"
+    end,
+    source_filename = join(vim.fn.stdpath "config", "templates", "journal.md"),
+  },
+  {
+    match_func = function(ctx)
+      return true
+    end,
+    source_filename = join(vim.fn.stdpath "config", "templates", "default.md"),
+  },
+}
 
 -- [[ Configure Terminal ]]
+--
+-- [
+--
+
 vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal size=30<CR>")
 vim.keymap.set("n", "<leader>tb", "<cmd>ToggleTerm direction=horizontal size=30<CR>")
 vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>")
