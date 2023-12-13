@@ -32,6 +32,16 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  -- 'tools-life/taskwiki',
+  -- personal note taking plugin (similar to orgmode in emacs)
+  {
+    'vimwiki/vimwiki',
+    config = function()
+    end,
+    lazy = true,
+    keys = '<leader>w',
+  },
+
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -55,7 +65,6 @@ require('lazy').setup({
     },
 
   },
-  { 'lervag/wiki.vim' },
   { 'akinsho/toggleterm.nvim', version = "*", config = true },
   {
     -- Autocompletion
@@ -71,10 +80,12 @@ require('lazy').setup({
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
 
+      "hrsh7th/cmp-omni",
+
     },
   },
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',  opts = {} },
+  { 'folke/which-key.nvim',    opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -317,8 +328,8 @@ vim.o.termguicolors = true
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -521,7 +532,7 @@ local on_attach = function(_, bufnr)
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+  nmap('<leader>ps', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
   nmap('<leader>lk', vim.lsp.buf.hover, 'Hover Documentation')
@@ -529,9 +540,9 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
+  nmap('<leader>pa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
+  nmap('<leader>pr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+  nmap('<leader>pl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
 
@@ -550,7 +561,7 @@ require('which-key').register {
   ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>w'] = { name = '[W]iki', _ = 'which_key_ignore' },
 }
 
 -- mason-lspconfig requires that these setup functions are called in this order
@@ -655,36 +666,16 @@ vim.keymap.set("n", "<C-l>", "<cmd>winc l<CR>")
 require('harpoon').setup({})
 
 
---
-vim.g.wiki_root = '~/wiki';
-vim.g.wiki_select_method = {
-  pages = require("wiki.telescope").pages,
-  tags = require("wiki.telescope").tags,
-  toc = require("wiki.telescope").toc,
-}
-local function join(...)
-  return table.concat(vim.tbl_flatten { ... }, '/')
-end
-
-vim.g.wiki_templates = {
-  {
-    match_func = function(ctx)
-      return ctx.path:find "journal/"
-    end,
-    source_filename = join(vim.fn.stdpath "config", "templates", "journal.md"),
-  },
-  {
-    match_func = function(ctx)
-      return true
-    end,
-    source_filename = join(vim.fn.stdpath "config", "templates", "default.md"),
-  },
-}
 
 -- [[ Configure Terminal ]]
 --
 -- [
 --
+
+vim.g.vimwiki_list = {
+  { path = '~/wiki/', syntax = 'markdown', ext = '.md' },
+}
+vim.g.vimwiki_global_ext = 0
 
 vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal size=30<CR>")
 vim.keymap.set("n", "<leader>tb", "<cmd>ToggleTerm direction=horizontal size=30<CR>")

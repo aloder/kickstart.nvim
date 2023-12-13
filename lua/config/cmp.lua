@@ -51,8 +51,8 @@ cmp.setup {
 		{ name = "copilot" },
 		{ name = 'vim-dadbod-completion' },
 		{ name = 'crates' },
-		{ name = 'neorg' },
-		{ name = 'mkdnflow' },
+		{ name = "omni",                 trigger_characters = { "[" } },
+		{ name = "path",                 option = { trailing_slash = true } },
 	},
 
 }

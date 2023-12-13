@@ -1,8 +1,8 @@
-#+TITLE: {name}
-#+CREATED: {date} {time}
-#+AUTHOR: {{GetUserName}} ({{GetHostName}})
+---
+created:{date}-{time}
+---
+::
 
-* {{wiki#template#case_title {name}}}
 
+# {{wiki#template#case_title {name}}}
 
-{{GetOriginLink Note created from here}}
