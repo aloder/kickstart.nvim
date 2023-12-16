@@ -23,17 +23,10 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-  {
-    'vimwiki/vimwiki',
-    config = function()
-    end,
-    lazy = true,
-    keys = '<leader>w',
-  },
 
 
   'itchyny/calendar.vim',
-
+  require 'custom.plugins.obsidian',
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -476,11 +469,6 @@ vim.keymap.set("n", "<leader>h1", "<cmd>lua require('harpoon.ui').nav_file(1)<CR
 vim.keymap.set("n", "<leader>h2", "<cmd>lua require('harpoon.ui').nav_file(2)<CR>", { desc = "Harpoon: GOTO 2" })
 vim.keymap.set("n", "<leader>h3", "<cmd>lua require('harpoon.ui').nav_file(3)<CR>", { desc = "Harpoon: GOTO 3" })
 
-
-vim.g.vimwiki_list = {
-  { path = '~/wiki/', syntax = 'markdown', ext = '.md' },
-}
-vim.g.vimwiki_global_ext = 0
 
 
 -- [[ Configure Terminal ]]

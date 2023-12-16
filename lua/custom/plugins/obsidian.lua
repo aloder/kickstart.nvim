@@ -73,15 +73,10 @@ return { { -- markdown image
 		"nvim-lua/plenary.nvim",
 	},
 	opts = {
-		workspaces = {
-			{
-				name = "personal",
-				path = "~/docs/brain",
-			},
-			{
-				name = "work",
-				path = "~/vaults/work",
-			},
+		workspaces = { {
+			name = "work",
+			path = "~/vaults/work",
+		},
 		},
 
 	},
@@ -98,6 +93,19 @@ return { { -- markdown image
 	config = function(_, opts)
 		require("obsidian").setup(opts)
 
+		vim.keymap.set(
+			"n",
+			"<leader>w<leader>w",
+			"<cmd>ObsidianToday<CR>",
+			{ desc = "Obsidian: Go to Today" }
+		)
+
+		vim.keymap.set(
+			"n",
+			"<leader>ww",
+			"<cmd>ObsidianNew index.md<CR>",
+			{ desc = "Obsidian: Go to Index" }
+		)
 		vim.api.nvim_create_autocmd("FileType", {
 			group = vim.api.nvim_create_augroup("obsidian_keybindings", { clear = true }),
 			pattern = { "markdown" },
@@ -137,7 +145,7 @@ return { { -- markdown image
 				)
 				vim.keymap.set(
 					"n",
-					"<leader>w/",
+					"<leader>wf",
 					"<cmd>ObsidianSearch<CR>",
 					{ buffer = event.buf, desc = "Obsidian: Search..." }
 				)
@@ -150,4 +158,5 @@ return { { -- markdown image
 			end,
 		})
 	end,
+	lazy = false,
 }, }
