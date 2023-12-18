@@ -1,5 +1,8 @@
 vim = vim
-
+-- Setting up configs
+MyConfig = {
+  work = true
+}
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -183,14 +186,6 @@ require('lazy').setup({
     },
   },
   { 'ThePrimeagen/harpoon' },
-  -- [[Rust Config]]
-  -- {
-  --   "rust-lang/rust.vim",
-  --   ft = "rust",
-  --   init = function()
-  --     vim.g.rustfmt_autosave = 1
-  --   end
-  -- },
   {
     "simrat39/rust-tools.nvim",
     ft = "rust",
@@ -215,19 +210,13 @@ require('lazy').setup({
       require("core.utils").load_mappings("crates")
     end,
   },
-  -- {
-  --   "rust-lang/rust.vim",
-  --   ft = "rust",
-  --   init = function()
-  --     vim.g.rustfmt_autosave = 1
-  --   end
-  -- },
   { 'echasnovski/mini.files', version = false },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
     event = "InsertEnter",
+    enabled = not MyConfig.work,
     opts = {
       enabled = false,
       suggestion = { enabled = false },
