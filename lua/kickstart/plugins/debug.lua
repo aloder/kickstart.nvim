@@ -1,33 +1,53 @@
 return {
   'mfussenegger/nvim-dap',
-  lazy = true,
   dependencies = {
     'rcarriga/nvim-dap-ui',
-
-    'williamboman/mason.nvim',
-    'jay-babu/mason-nvim-dap.nvim',
 
     'leoluz/nvim-dap-go',
   },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
+    dap.adapters.lldb = {
+      type = "executable",
+      name = "lldb",
+      command = "lldb-vscode",
 
-    require('mason-nvim-dap').setup {
-      automatic_setup = true,
-
-      handlers = {},
-
-      ensure_installed = {
-        'delve',
-      },
     }
 
+    dap.adapters.cppdbg = {
+      type = "executable",
+      name = "lldb-cppdbg",
+      command = "lldb-vscode",
+    }
+
+    dap.configurations.cpp = {
+      {
+        name = "Launch file",
+        type = "cppdbg",
+        request = "launch",
+        -- command = "/opt/homebrew/Cellar/llvm/17.0.6_1/bin/lldb",
+        -- program = function()
+        --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        -- end,
+        cwd = '${workspaceFolder}',
+        MIMode = 'lldb',
+        stopAtEntry = true,
+      },
+    }
+    local continue = function()
+      if vim.fn.filereadable('.vscode/launch.json') then
+        require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
+      end
+      require('dap').continue()
+    end
     -- Basic debugging keymaps, feel free to change to your liking!
-    vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+    vim.keymap.set('n', '<F5>', continue, { desc = 'Debug: Start/Continue' })
     vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
     vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
     vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
+    vim.keymap.set('n', '<F12>', dap.terminate, { desc = 'Debug: Close' })
     vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
     vim.keymap.set('n', '<leader>B', function()
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')

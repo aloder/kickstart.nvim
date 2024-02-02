@@ -23,7 +23,7 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-
+  'lluchs/vim-wren',
 
   'itchyny/calendar.vim',
   require 'custom.plugins.obsidian',
@@ -59,6 +59,12 @@ require('lazy').setup({
       'rafamadriz/friendly-snippets',
       "hrsh7th/cmp-omni",
     },
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
   },
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim',    opts = {} },
@@ -110,7 +116,7 @@ require('lazy').setup({
   },
 
   {
-    -- Set lualine as statusline
+    -- Set lualine as status line
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
@@ -287,6 +293,13 @@ vim.o.smartcase = true
 
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
+
+-- Spell check
+vim.opt.spell = true
+vim.opt.spelllang = 'en_us'
+
+vim.opt.textwidth = 80
+vim.wo.linebreak = true
 
 -- Decrease update time
 vim.o.updatetime = 250
