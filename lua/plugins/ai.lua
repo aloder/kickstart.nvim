@@ -1,3 +1,7 @@
+if MyConfig.work then
+  return {}
+end
+
 return {
   {
     "zbirenbaum/copilot.lua",
