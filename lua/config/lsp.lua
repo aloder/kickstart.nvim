@@ -1,3 +1,8 @@
+if MyConfig.work then
+	require 'work/lsp'
+	return
+end
+
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require('mason').setup()
@@ -49,8 +54,6 @@ local on_attach = function(_, bufnr)
 end
 local servers = {
 	clangd = {},
-	-- gopls = {},
-	-- pyright = {},
 
 	rust_analyzer = {
 		settings = {

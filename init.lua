@@ -28,8 +28,6 @@ require('lazy').setup({
   'tpope/vim-sleuth',
   'lluchs/vim-wren',
 
-  'itchyny/calendar.vim',
-  require 'custom.plugins.obsidian',
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -48,7 +46,6 @@ require('lazy').setup({
     },
 
   },
-  { 'akinsho/toggleterm.nvim', version = "*", config = true },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -191,62 +188,10 @@ require('lazy').setup({
       "nvim-tree/nvim-web-devicons"
     },
   },
+  require 'plugins.rust',
+  require 'plugins.ai',
   { 'ThePrimeagen/harpoon' },
-  {
-    "simrat39/rust-tools.nvim",
-    ft = "rust",
-    dependencies = "neovim/nvim-lspconfig",
-    opts = function()
-      return require "config.rust-tools"
-    end,
-    config = function(_, opts)
-      require('rust-tools').setup(opts)
-    end
-  },
-  {
-    'saecki/crates.nvim',
-    ft = { "toml" },
-    config = function(_, opts)
-      local crates = require('crates')
-      crates.setup(opts)
-      require('cmp').setup.buffer({
-        sources = { { name = "crates" } }
-      })
-      crates.show()
-      require("core.utils").load_mappings("crates")
-    end,
-  },
-  { 'echasnovski/mini.files', version = false },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    build = ":Copilot auth",
-    event = "InsertEnter",
-    enabled = not MyConfig.work,
-    opts = {
-      enabled = false,
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-      filetypes = {
-        help = true,
-      },
-    },
-    config = function()
-      require("copilot").setup({
-        panel = {
-          enabled = true,
-          auto_refresh = true,
-        },
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          keymap = {
-            accept = "<C-l>",
-          }
-        },
-      })
-    end
-  },
+    { 'echasnovski/mini.files', version = false },
 }, {})
 
 -- [[ Setting options ]]
