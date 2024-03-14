@@ -21,6 +21,13 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 
+function Require_if_work(path)
+  if MyConfig.work then
+    return require(path)
+  end
+  return {}
+end
+
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
@@ -42,6 +49,8 @@ require('lazy').setup({
 
   require 'plugins.rust',
   require 'plugins.ai',
+
+  Require_if_work('work.plugins'),
 }, {})
 
 -- [[ Setting options ]]
@@ -139,6 +148,9 @@ require("aerial").setup({
 -- You probably also want to set a keymap to toggle aerial
 vim.keymap.set("n", "<leader>o", "<cmd>AerialToggle!<CR>")
 
+vim.o.tabstop = 4      -- Insert 4 spaces for a tab
+vim.o.shiftwidth = 4   -- Change the number of space characters inserted for indentation
+vim.o.expandtab = true -- Converts tabs to spaces
 
 
 -- document existing key chains
@@ -187,4 +199,5 @@ vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm direction=horizontal size=30<
 vim.keymap.set("n", "<leader>tb", "<cmd>ToggleTerm direction=horizontal size=30<CR>")
 vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>")
 
+Require_if_work('work.config')
 -- vim: ts=2 sts=2 sw=2 et
