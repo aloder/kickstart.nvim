@@ -1,8 +1,4 @@
-if MyConfig.work then
-	return require("work.plugins.lsp")
-end
-
-return {
+return {{
 	-- LSP Configuration & Plugins
 	'neovim/nvim-lspconfig',
 	dependencies = {
@@ -122,4 +118,4 @@ return {
 		}
 	end
 
-}
+},require("work.plugins.lsp")}
