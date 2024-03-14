@@ -14,4 +14,11 @@ function M.isModuleAvailable(name)
   end
 end
 
+function M.require_if_work(path)
+  if MyConfig.work then
+    return require(path)
+  end
+  return {}
+end
+
 return M
