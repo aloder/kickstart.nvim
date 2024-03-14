@@ -60,8 +60,6 @@ vim.o.termguicolors = true
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
--- vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
--- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -84,15 +82,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 
-vim.o.tabstop = 4      -- Insert 4 spaces for a tab
-vim.o.shiftwidth = 4   -- Change the number of space characters inserted for indentation
-vim.o.expandtab = true -- Converts tabs to spaces
-
+vim.o.expandtab = true        -- Use spaces instead of tabs
+vim.g.shiftwidth = 2          -- Shift 2 spaces when tab
+vim.g.tabstop = 2             -- 1 tab == 2 spaces
+vim.g.softtabstop = 2
+vim.o.smartindent = true      -- Autoindent new lines
+vim.o.swapfile = false
 
 vim.keymap.set("n", "H", "^")
 vim.keymap.set("n", "L", "$")
-
-vim.keymap.set("n", "<C-h>", "<cmd>winc h<CR>")
-vim.keymap.set("n", "<C-j>", "<cmd>winc j<CR>")
-vim.keymap.set("n", "<C-k>", "<cmd>winc k<CR>")
-vim.keymap.set("n", "<C-l>", "<cmd>winc l<CR>")
