@@ -4,4 +4,3 @@ test.sh
 nvim
 lazy-lock.json
 **/google/**
-config.lua
