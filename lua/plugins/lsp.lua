@@ -1,4 +1,4 @@
-return {{
+return { {
 	-- LSP Configuration & Plugins
 	'neovim/nvim-lspconfig',
 	dependencies = {
@@ -86,7 +86,6 @@ return {{
 					},
 				},
 			},
-			-- html = { filetypes = { 'html', 'twig', 'hbs' } },
 			lua_ls = {
 				Lua = {
 					workspace = { checkThirdParty = false },
@@ -118,4 +117,4 @@ return {{
 		}
 	end
 
-},require("work.plugins.lsp")}
+}, require('util').require_if_work("work.plugins.lsp"), }

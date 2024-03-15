@@ -15,8 +15,11 @@ return {
     -- Adds a number of user-friendly snippets
     'rafamadriz/friendly-snippets',
     "hrsh7th/cmp-omni",
-  },
 
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+
+  },
   init = function()
     -- [[ Configure nvim-cmp ]]
     -- See `:help cmp`
@@ -25,6 +28,18 @@ return {
     require('luasnip.loaders.from_vscode').lazy_load()
     luasnip.config.setup {}
 
+    local function border(hl_name)
+      return {
+        { "╭", hl_name },
+        { "─", hl_name },
+        { "╮", hl_name },
+        { "│", hl_name },
+        { "╯", hl_name },
+        { "─", hl_name },
+        { "╰", hl_name },
+        { "│", hl_name },
+      }
+    end
     cmp.setup {
       snippet = {
         expand = function(args)
@@ -32,7 +47,20 @@ return {
         end,
       },
       completion = {
-        completeopt = 'menu,menuone,noinsert'
+        completeopt = 'menu,menuone'
+      },
+
+      window = {
+        completion = {
+          side_padding = 1,
+          winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:None",
+          scrollbar = false,
+          border = border "CmpBorder",
+        },
+        documentation = {
+          border = border "CmpDocBorder",
+          winhighlight = "Normal:CmpDoc",
+        },
       },
       mapping = cmp.mapping.preset.insert {
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -68,14 +96,31 @@ return {
       sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        { name = "copilot" },
+        { name = 'copilot' },
         { name = 'vim-dadbod-completion' },
         { name = 'crates' },
         { name = "omni",                 trigger_characters = { "[" } },
         { name = "path",                 option = { trailing_slash = true } },
       },
-
     }
+    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline({ '/', '?' }, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' }
+      }
+    })
+
+    -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' }
+      }, {
+        { name = 'cmdline' }
+      })
+    })
   end,
+
 }
 -- vim: ts=2 sts=2 sw=2 et
