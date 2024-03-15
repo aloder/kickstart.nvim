@@ -64,7 +64,12 @@ return { {
 			end, { desc = 'Format current buffer with LSP' })
 		end
 		local servers = {
-			clangd = {},
+			clangd = {
+				client = {
+					cmd = { 'clangd', '--background-index', "--offset-encoding=utf-16", },
+					filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+				},
+			},
 
 			rust_analyzer = {
 				settings = {
