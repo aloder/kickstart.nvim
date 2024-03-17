@@ -36,26 +36,49 @@ return {
   },
   {
     'ThePrimeagen/harpoon',
+    branch = "harpoon2",
     init = function()
-      require('harpoon').setup({})
-      local mark = require("harpoon.mark")
-      vim.keymap.set("n", "<leader>hm", mark.add_file, { desc = "Harpoon: Add File" })
+      local harpoon = require('harpoon')
+      harpoon:setup({})
 
-      local ui = require("harpoon.ui")
-      vim.keymap.set("n", "<leader>hd", mark.rm_file, { desc = "Harpoon: Remove current file" })
-      vim.keymap.set("n", "<leader>hh", ui.toggle_quick_menu, { desc = "Harpoon: UI quick menu" })
+      -- basic telescope configuration
+      local conf = require("telescope.config").values
+      local function toggle_telescope(harpoon_files)
+        local file_paths = {}
+        for _, item in ipairs(harpoon_files.items) do
+          table.insert(file_paths, item.value)
+        end
 
-      vim.keymap.set("n", "<C-p>", ui.nav_prev, { desc = "Harpoon: Prev file" })
-      vim.keymap.set("n", "<C-n>", ui.nav_next, { desc = "Harpoon: Next file" })
+        require("telescope.pickers").new({}, {
+          prompt_title = "Harpoon",
+          finder = require("telescope.finders").new_table({
+            results = file_paths,
+          }),
+          previewer = conf.file_previewer({}),
+          sorter = conf.generic_sorter({}),
+        }):find()
+      end
+      -- REQUIRED
+      harpoon:setup()
+      -- REQUIRED
+
+      vim.keymap.set("n", "<C-h>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+      vim.keymap.set("n", "<leader>hh", function() harpoon:list():append() end)
+      vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+      -- Toggle previous & next buffers stored within Harpoon list
+      vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+      vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+
+      vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
+        { desc = "Open harpoon window" })
+
       for i = 1, 9 do
         local open_file = function()
-          ui.nav_file(i)
+          harpoon:list():select(i)
         end
         vim.keymap.set('n', '<leader>h' .. i, open_file, { desc = 'Harpoon: Open file ' .. i })
       end
-      local telescope = require("telescope")
-      telescope.load_extension("harpoon")
-      vim.keymap.set("n", "<leader>hs", ":Telescope harpoon marks<CR>", { desc = "Harpoon: search" })
     end
   },
 }
