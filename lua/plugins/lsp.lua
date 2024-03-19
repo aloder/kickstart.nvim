@@ -12,6 +12,8 @@ return { {
 		-- Additional lua configuration, makes nvim stuff amazing!
 		'folke/neodev.nvim',
 	},
+	event = { "BufReadPost", "BufNewFile" },
+ cmd = { "LspInfo", "LspInstall", "LspUninstall" },
 	init = function()
 		-- mason-lspconfig requires that these setup functions are called in this order
 		-- before setting up the servers.

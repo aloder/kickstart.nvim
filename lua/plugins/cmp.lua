@@ -1,6 +1,6 @@
-if MyConfig.work then
-  return require("work.plugins.cmp")
-end
+-- if MyConfig.work then
+--   return require("work.plugins.cmp")
+-- end
 
 return {
   -- LSP Configuration & Plugins
@@ -54,12 +54,13 @@ return {
         completion = {
           side_padding = 1,
           winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:None",
-          scrollbar = false,
+          scrollbar = true,
           border = border "CmpBorder",
         },
         documentation = {
           border = border "CmpDocBorder",
           winhighlight = "Normal:CmpDoc",
+          
         },
       },
       mapping = cmp.mapping.preset.insert {

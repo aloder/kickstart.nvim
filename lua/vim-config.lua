@@ -89,5 +89,8 @@ vim.g.softtabstop = 2
 vim.o.smartindent = true      -- Autoindent new lines
 vim.o.swapfile = false
 
-vim.keymap.set("n", "H", "^")
-vim.keymap.set("n", "L", "$")
+vim.keymap.set({"n", "v"}, "H", "^")
+vim.keymap.set({"n", "v"}, "L", "$")
+
+vim.opt.colorcolumn = "100"
+vim.opt.pumheight = 15
