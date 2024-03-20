@@ -16,6 +16,7 @@ require('lazy').setup({
   require 'plugins.cmp',
   require 'plugins.rust',
   require 'plugins.ai',
+  require 'plugins.zenmode',
 
   util.require_if_work('work.plugins'),
 }, {})

@@ -1,7 +1,3 @@
--- if MyConfig.work then
---   return require("work.plugins.cmp")
--- end
-
 return {
   -- LSP Configuration & Plugins
   --   -- Autocompletion
@@ -24,6 +20,7 @@ return {
     -- [[ Configure nvim-cmp ]]
     -- See `:help cmp`
     local cmp = require 'cmp'
+    local cmp_select = {behavior = cmp.SelectBehavior.Select}
     local luasnip = require 'luasnip'
     require('luasnip.loaders.from_vscode').lazy_load()
     luasnip.config.setup {}
@@ -47,60 +44,34 @@ return {
         end,
       },
       completion = {
-        completeopt = 'menu,menuone'
+        completeopt = 'menu,menuone,noselect'
       },
 
       window = {
         completion = {
-          side_padding = 1,
-          winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:None",
           scrollbar = true,
           border = border "CmpBorder",
         },
         documentation = {
           border = border "CmpDocBorder",
-          winhighlight = "Normal:CmpDoc",
-          
         },
       },
       mapping = cmp.mapping.preset.insert {
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        },
-        ['<Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-            -- elseif has_words_before() then
-            -- 	cmp.complete()
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.locally_jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
+        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<Tab>"] = nil,
+        ["<S-Tab>"] = nil,
+        ["<CR>"] = nil,
       },
+
       sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'copilot' },
         { name = 'vim-dadbod-completion' },
         { name = 'crates' },
-        { name = "omni",                 trigger_characters = { "[" } },
         { name = "path",                 option = { trailing_slash = true } },
       },
     }
