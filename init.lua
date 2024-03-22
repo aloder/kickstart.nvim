@@ -17,7 +17,8 @@ require('lazy').setup({
   require 'plugins.rust',
   require 'plugins.ai',
   require 'plugins.zenmode',
-
+  'ziglang/zig.vim',
+  'codethread/qmk.nvim',
   util.require_if_work('work.plugins'),
 }, {})
 
