@@ -9,28 +9,25 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
     require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
+    dap.defaults.fallback.external_terminal = {
+      command = '/usr/bin/gnome-terminal',
+    }
     dap.adapters.lldb = {
       type = "executable",
       name = "lldb",
       command = "lldb-vscode",
     }
 
-    dap.adapters.cppdbg = {
-      type = "executable",
-      name = "lldb-cppdbg",
-      command = "lldb-vscode",
-    }
-
     dap.configurations.cpp = {
       {
         name = "Launch file",
-        type = "cppdbg",
+        type = "lldb",
         request = "launch",
         program = function()
           return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
         end,
-        cwd = '${workspaceFolder}',
         MIMode = 'lldb',
+        runInTerminal = false,
         stopAtEntry = true,
       },
     }
