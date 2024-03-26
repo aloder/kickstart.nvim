@@ -13,7 +13,6 @@ return {
       type = "executable",
       name = "lldb",
       command = "lldb-vscode",
-
     }
 
     dap.adapters.cppdbg = {
@@ -27,15 +26,15 @@ return {
         name = "Launch file",
         type = "cppdbg",
         request = "launch",
-        -- command = "/opt/homebrew/Cellar/llvm/17.0.6_1/bin/lldb",
-        -- program = function()
-        --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        -- end,
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
         cwd = '${workspaceFolder}',
         MIMode = 'lldb',
         stopAtEntry = true,
       },
     }
+    dap.configurations.c = dap.configurations.cpp
     local continue = function()
       if vim.fn.filereadable('.vscode/launch.json') then
         require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
