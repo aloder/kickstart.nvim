@@ -66,6 +66,12 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<C-h>', '<C-\\><C-n><C-w>h', { desc = 'Move left' })
+vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-w>j', { desc = 'Move down' })
+vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k', { desc = 'Move up' })
+vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l', { desc = 'Move right' })
+vim.keymap.set('t', '<C-\\><C-\\>', '<Esc>', { desc = 'Send escape' })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -82,15 +88,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 
-vim.o.expandtab = true        -- Use spaces instead of tabs
-vim.g.shiftwidth = 2          -- Shift 2 spaces when tab
-vim.g.tabstop = 2             -- 1 tab == 2 spaces
+vim.o.expandtab = true   -- Use spaces instead of tabs
+vim.g.shiftwidth = 2     -- Shift 2 spaces when tab
+vim.g.tabstop = 2        -- 1 tab == 2 spaces
 vim.g.softtabstop = 2
-vim.o.smartindent = true      -- Autoindent new lines
+vim.o.smartindent = true -- Autoindent new lines
 vim.o.swapfile = false
 
-vim.keymap.set({"n", "v"}, "H", "^")
-vim.keymap.set({"n", "v"}, "L", "$")
+vim.keymap.set({ "n", "v" }, "H", "^")
+vim.keymap.set({ "n", "v" }, "L", "$")
 
 vim.opt.colorcolumn = "100"
 vim.opt.pumheight = 15
